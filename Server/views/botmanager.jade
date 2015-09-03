@@ -1,0 +1,63 @@
+doctype html
+html
+  head
+    title= 'Weyland Corperation - Bot Manager'
+    link(rel='stylesheet', href='/stylesheets/cpanel.css')
+  body
+    table.header
+      tr
+        td
+          a.home(class="header-button", href="/cpanel/") Home
+        td
+          a.commandman(class="header-button", href="/cpanel/commandmanager") Command Manager
+        td
+          a.taskstats(class="header-button", href="/cpanel/taskstats") Task Statistics
+        td
+          a.clearbase(class="header-button", href="/cpanel/clearbase") Clear Base
+        td
+          a.logout(class="header-button", href="/cpanel/logout") Log Out
+
+    table.bots
+      tr
+        td
+          span.name(class="bot-name") Bot Name
+        td
+          span.group(class="bot-group") Bot Group
+        td
+          span.version(class="bot-version") Bot Version
+        td
+          span.platform(class="bot-platform") OS Platform
+        td
+          span.language(class="bot-language") OS Language
+        td
+          span.bits(class="bot-bits") Bot Bits
+        td
+          span.localtime(class="bot-localtime") Bot Localtime
+        td
+          span.ip(class="bot-ip") Bot IP
+        td
+          span.country(class="bot-country") Bot Country
+        td
+          span.nextCommand(class="bot-nextcommand") Next Command
+      each bot in bots
+        tr
+          td
+            a.name(class="bot-name", href="/cpanel/bot?name=" + bot.name)= bot.name
+          td
+            span.group(class="bot-group")= bot.botgroup
+          td
+            span.version(class="bot-version")= bot.version
+          td
+            span.platform(class="bot-platform")= bot.platform
+          td
+            span.language(class="bot-language")= bot.language
+          td
+            span.bits(class="bot-bits")= bot.bits
+          td
+            span.localtime(class="bot-localtime")= bot.localt
+          td
+            span.ip(class="bot-ip")= bot.ip
+          td
+            span.country(class="bot-country")= bot.country
+          td
+            span.nextCommand(class="bot-nextcommand")= bot.nextCommand

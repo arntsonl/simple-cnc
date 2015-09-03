@@ -1,0 +1,46 @@
+doctype html
+html
+  head
+    title= 'Weyland Corperation - Command Manager'
+    link(rel='stylesheet', href='/stylesheets/cpanel.css')
+  body
+    table.header
+      tr
+        td
+          a.home(class="header-button", href="/cpanel/") Home
+        td
+          a.commandman(class="header-button", href="/cpanel/botmanager") Bot Manager
+        td
+          a.taskstats(class="header-button", href="/cpanel/taskstats") Task Statistics
+        td
+          a.clearbase(class="header-button", href="/cpanel/clearbase") Clear Base
+        td
+          a.logout(class="header-button", href="/cpanel/logout") Log Out
+
+    table.bots
+      tr
+        td
+          span.name(class="command-name") Command Name
+        td
+          span.type(class="command-type") Command Type
+        td
+          span.group(class="command-params") Command Params
+      each command in commands
+        tr
+          td
+            a.name(class="command-name", href="/cpanel/command?name=" + command.name)= command.name
+          td
+            span.type(class="command-type")= command.type
+          td
+            span.group(class="command-params")= command.params
+    h1.title(class="add-command-title") Add Command
+    form(method="post",action="/cpanel/newcommand")
+      input(type="text",name="name")
+      select.list(name="type")
+        option(value="heartbeat") Heartbeat
+        option(value="flood") Flood
+        option(value="system") System Call
+        option(value="downloadandexecute") Download And Execute
+        option(Value="shell") Shell
+      input(type="text",name="params")
+      input(type="submit")

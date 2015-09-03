@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title= 'Weyland Corperation'
+    link(rel='stylesheet', href='/stylesheets/index.css')
+  body
+    form.login-form(action='/login',method='post')
+      div(class="input-block center-align")
+        p
+          input.login(class="login-input", name="login", type="text")
+        p
+          input.password(class="login-password", name="password", type="password")
+        p
+          input.submit(class="login-submit", type="submit")

@@ -1,0 +1,28 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #444444;
+  text-align: center;
+}
+
+table.header {
+  margin: 0 auto;
+}
+
+table.header td{
+  padding: 0 30px;
+}
+
+table.header a{
+  color: #00B7FF;
+}
+
+
+button {
+  margin: 5px;
+}
+
+.center-align {
+  left: 50%;
+  transform: translateX(-50%);
+}
