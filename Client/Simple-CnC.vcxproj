@@ -72,6 +72,7 @@
     <ClCompile Include="messages.c" />
     <ClCompile Include="httpclient.c" />
     <ClCompile Include="registry.c" />
+    <ClCompile Include="reverseshell.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="helper.h" />
@@ -79,6 +80,7 @@
     <ClInclude Include="messages.h" />
     <ClInclude Include="httpclient.h" />
     <ClInclude Include="registry.h" />
+    <ClInclude Include="reverseshell.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

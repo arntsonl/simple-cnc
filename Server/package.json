@@ -1,5 +1,5 @@
 {
-  "name": "Simple CnC Server",
+  "name": "SimpleCnCServer",
   "version": "0.0.0",
   "main": "server.js",
   "dependencies": {
